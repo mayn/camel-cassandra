@@ -1,0 +1,50 @@
+package org.apache.camel.component.cassandra.thrift;
+
+/**
+ * Defines the available <a href="wiki.apache.org/cassandra/API#Method_calls">Cassandra Thrift API Operations</a>
+ */
+public enum ThriftOperations {
+//    login,
+//    set_keyspace,
+    get,
+//    get_slice,
+//    get_count,
+//    multiget_slice,
+//    multiget_count,
+//    get_range_slices,
+//    get_paged_slice,
+//    get_indexed_slices,
+//    insert,
+//    add,
+//    remove,
+//    remove_counter,
+//    batch_mutate,
+//    atomic_batch_mutate,
+//    truncate,
+//    describe_schema_versions,
+//    describe_keyspaces,
+//    describe_cluster_name,
+//    describe_version,
+//    describe_ring,
+//    describe_token_map,
+//    describe_partitioner,
+//    describe_snitch,
+//    describe_keyspace,
+//    describe_splits,
+//    trace_next_query,
+//    describe_splits_ex,
+//    system_add_column_family,
+//    system_drop_column_family,
+//    system_add_keyspace,
+//    system_drop_keyspace,
+//    system_update_keyspace,
+//    system_update_column_family,
+//    execute_cql_query,
+//    execute_cql3_query,
+//    prepare_cql_query,
+//    prepare_cql3_query,
+//    execute_prepared_cql_query,
+//    execute_prepared_cql3_query,
+//    set_cql_version
+;
+}
