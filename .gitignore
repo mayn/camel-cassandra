@@ -1,7 +1,10 @@
 target
-camel-cassandra.ipr
-camel-cassandra.iws
-camel-cassandra.iml
-.project
+*.ipr
+*.iws
+*.iml
+.idea
+.DS_Store
 .classpath
-*.patch
+.project
+.settings
+*.log

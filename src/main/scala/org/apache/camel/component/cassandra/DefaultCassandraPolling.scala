@@ -1,3 +1,0 @@
-package org.apache.camel.component.cassandra
-
-class DefaultCassandraPolling(endpoint: CassandraEndpoint) extends StrategyBasedCassandraPolling(new DefaultCassandraPollingStrategy(endpoint))
