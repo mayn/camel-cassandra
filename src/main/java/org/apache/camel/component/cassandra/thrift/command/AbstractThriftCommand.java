@@ -13,6 +13,8 @@ import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.thrift.TException;
 
 public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
 
@@ -23,6 +25,12 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
         super(exchange);
         this.configuration = configuration;
         this.cassandraClient = cassandraClient;
+    }
+
+    protected String determineKeyspace() {
+        String keyspace = exchange.getIn().getHeader(CassandraConstants.KEYSPACE, String.class);
+
+        return keyspace != null ? keyspace : configuration.getKeyspace();
     }
 
     protected ByteBuffer determineColumn() throws NoTypeConversionAvailableException {
@@ -78,4 +86,16 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
         return consistencyLevel != null ? consistencyLevel : configuration.getConsistencyLevel();
     }
 
+    /**
+     * sets keyspace on client if keyspace is found
+     *
+     * @throws InvalidRequestException
+     * @throws TException
+     */
+    protected void doSetKeyspaceOnClient() throws InvalidRequestException, TException {
+        String keyspace = determineKeyspace();
+        if (keyspace != null) {
+            cassandraClient.set_keyspace(keyspace);
+        }
+    }
 }

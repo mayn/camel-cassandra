@@ -13,6 +13,7 @@ public class CassandraThriftConfiguration implements Cloneable {
     private int timeout = 3000;
     private ConsistencyLevel consistencyLevel = ConsistencyLevel.QUORUM;
     private ThriftOperations operation;
+    private String keyspace;
 
     public String getHost() {
         return host;
@@ -52,5 +53,13 @@ public class CassandraThriftConfiguration implements Cloneable {
 
     public void setOperation(ThriftOperations operation) {
         this.operation = operation;
+    }
+
+    public String getKeyspace() {
+        return keyspace;
+    }
+
+    public void setKeyspace(String keyspace) {
+        this.keyspace = keyspace;
     }
 }

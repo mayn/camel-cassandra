@@ -15,16 +15,38 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 
 public class AbstractThriftCommandTest {
     private AbstractThriftCommand command;
     private Exchange exchange;
+    private CassandraThriftConfiguration configuration;
+    private Cassandra.Client client;
 
     @Before
     public void setUp() throws Exception {
+        configuration = new CassandraThriftConfiguration();
+        configuration.setKeyspace("aKeyspace");
+
+        client = mock(Cassandra.Client.class);
         exchange = new DefaultExchange(new DefaultCamelContext());
-        command = new MyAbstractThriftCommand(null, null, exchange);
+        command = new MyAbstractThriftCommand(client, configuration, exchange);
+    }
+
+    @Test
+    public void testDetermineKeyspace() throws Exception {
+        assertEquals(configuration.getKeyspace(), ExchangeHelper.convertToMandatoryType(exchange, String.class, command.determineKeyspace()));
+    }
+
+    @Test
+    public void testDetermineKeyspaceFromHeaderValue() throws Exception {
+        exchange.getIn().setHeader(CassandraConstants.KEYSPACE, "myKeyspace");
+
+        assertEquals("myKeyspace", ExchangeHelper.convertToMandatoryType(exchange, String.class, command.determineKeyspace()));
     }
 
     @Test
@@ -32,7 +54,6 @@ public class AbstractThriftCommandTest {
         exchange.getIn().setHeader(CassandraConstants.COLUMN, "myColumn");
 
         assertEquals("myColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, command.determineColumn()));
-
     }
 
     @Test
@@ -84,6 +105,14 @@ public class AbstractThriftCommandTest {
 
     @Test
     public void testDetermineConsistencyLevel() throws Exception {
+        ConsistencyLevel result = command.determineConsistencyLevel();
+
+        assertNotNull(result);
+        assertEquals(configuration.getConsistencyLevel(), result);
+    }
+
+    @Test
+    public void testDetermineConsistencyLevelFromHeaderValue() throws Exception {
         exchange.getIn().setHeader(CassandraConstants.CONSISTENCY_LEVEL, ConsistencyLevel.ALL);
 
         ConsistencyLevel result = command.determineConsistencyLevel();
@@ -92,6 +121,20 @@ public class AbstractThriftCommandTest {
         assertEquals(ConsistencyLevel.ALL, result);
     }
 
+    @Test
+    public void testdoSetKeyspaceOnClient() throws Exception {
+        command.doSetKeyspaceOnClient();
+
+        verify(client).set_keyspace(anyString());
+    }
+
+    @Test
+    public void testdoSetKeyspaceOnClientWithoutKeyspace() throws Exception {
+        configuration.setKeyspace(null);
+        command.doSetKeyspaceOnClient();
+
+        verify(client, never()).set_keyspace(anyString());
+    }
 
     /**
      * util class used to populate AbstractThriftCommand
