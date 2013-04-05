@@ -28,7 +28,8 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
     protected ByteBuffer determineColumn() throws NoTypeConversionAvailableException {
         String column = exchange.getIn().getHeader(CassandraConstants.COLUMN, String.class);
 
-        return column != null ? ExchangeHelper.convertToMandatoryType(exchange, ByteBuffer.class, column) : null;
+        //calling ByteBuffer.wrap was necessary as they weren't being processed correctly by thrift. not sure why
+        return column == null ? null : ByteBuffer.wrap(ExchangeHelper.convertToMandatoryType(exchange, byte[].class, column));
     }
 
     protected String determineColumnFamily() {
@@ -36,13 +37,14 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
     }
 
     protected ByteBuffer determineKey() {
-        return exchange.getIn().getHeader(CassandraConstants.KEY, ByteBuffer.class);
+        return ByteBuffer.wrap(exchange.getIn().getHeader(CassandraConstants.KEY, byte[].class));
     }
 
     protected ByteBuffer determineSuperColumn() throws NoTypeConversionAvailableException {
         String superColumn = exchange.getIn().getHeader(CassandraConstants.SUPER_COLUMN, String.class);
 
-        return superColumn == null ? null : ExchangeHelper.convertToMandatoryType(exchange, ByteBuffer.class, superColumn);
+        //calling ByteBuffer.wrap was necessary as they weren't being processed correctly by thrift. not sure why
+        return superColumn == null ? null : ByteBuffer.wrap(ExchangeHelper.convertToMandatoryType(exchange, byte[].class, superColumn));
     }
 
     /**

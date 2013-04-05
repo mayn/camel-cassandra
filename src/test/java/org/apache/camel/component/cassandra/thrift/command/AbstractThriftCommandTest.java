@@ -65,7 +65,7 @@ public class AbstractThriftCommandTest {
 
         assertNotNull(result);
         assertEquals("myColumnFamily", result.getColumn_family());
-        assertEquals("mySuperColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.bufferForSuper_column()));
+        assertEquals("mySuperColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.getSuper_column()));
     }
 
     @Test
@@ -78,8 +78,8 @@ public class AbstractThriftCommandTest {
 
         assertNotNull(result);
         assertEquals("myColumnFamily", result.getColumn_family());
-        assertEquals("myColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.bufferForColumn()));
-        assertEquals("mySuperColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.bufferForSuper_column()));
+        assertEquals("myColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.getColumn()));
+        assertEquals("mySuperColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.getSuper_column()));
     }
 
     @Test
