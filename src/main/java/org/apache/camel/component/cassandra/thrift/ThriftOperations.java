@@ -20,7 +20,7 @@ public enum ThriftOperations {
 //    remove_counter,
 //    batch_mutate,
 //    atomic_batch_mutate,
-//    truncate,
+    truncate,
 //    describe_schema_versions,
 //    describe_keyspaces,
 //    describe_cluster_name,
