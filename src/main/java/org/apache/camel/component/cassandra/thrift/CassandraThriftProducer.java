@@ -6,6 +6,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.component.cassandra.CassandraCommand;
 import org.apache.camel.component.cassandra.CassandraConstants;
 import org.apache.camel.component.cassandra.thrift.command.GetCommand;
+import org.apache.camel.component.cassandra.thrift.command.InsertCommand;
+import org.apache.camel.component.cassandra.thrift.command.TruncateCommand;
 import org.apache.camel.impl.DefaultProducer;
 import org.apache.camel.util.URISupport;
 import org.apache.cassandra.thrift.Cassandra;
@@ -26,6 +28,12 @@ public class CassandraThriftProducer extends DefaultProducer {
         switch (determineOperation(exchange)) {
             case get:
                 command = new GetCommand(client, getEndpoint().getConfiguration(), exchange);
+                break;
+            case insert:
+                command = new InsertCommand(client, getEndpoint().getConfiguration(), exchange);
+                break;
+            case truncate:
+                command = new TruncateCommand(client, getEndpoint().getConfiguration(), exchange);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported operation");

@@ -7,6 +7,7 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.util.ExchangeHelper;
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
@@ -15,6 +16,7 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.TestCase.assertNull;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -134,6 +136,48 @@ public class AbstractThriftCommandTest {
         command.doSetKeyspaceOnClient();
 
         verify(client, never()).set_keyspace(anyString());
+    }
+
+    @Test
+    public void testDetermineTtl() throws Exception {
+        Integer ttl = 60;
+        exchange.getIn().setHeader(CassandraConstants.TTL, ttl);
+
+        assertEquals(ttl, command.determineTtl());
+    }
+
+    @Test
+    public void testDetermineTtlNotSet() throws Exception {
+        assertNull(command.determineTtl());
+    }
+
+    @Test
+    public void testDetermineTimestamp() throws Exception {
+        long timestamp = System.currentTimeMillis();
+        exchange.getIn().setHeader(CassandraConstants.TIMESTAMP, timestamp);
+
+        assertEquals(timestamp, command.determineTimestamp());
+    }
+
+    @Test
+    public void testDetermineTimestampNotSet() throws Exception {
+        assertEquals(0L, command.determineTimestamp());
+    }
+
+    @Test
+    public void testDetermineThriftColumn() throws Exception {
+        exchange.getIn().setHeader(CassandraConstants.COLUMN, "myColumn");
+        exchange.getIn().setHeader(CassandraConstants.TIMESTAMP, 1234L);
+        exchange.getIn().setHeader(CassandraConstants.TTL, 120);
+        exchange.getIn().setBody("myValue");
+
+        Column result = command.determineThriftColumn();
+
+        assertNotNull(result);
+        assertEquals(120, result.getTtl());
+        assertEquals(1234L, result.getTimestamp());
+        assertEquals("myColumn", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.getName()));
+        assertEquals("myValue", ExchangeHelper.convertToMandatoryType(exchange, String.class, result.getValue()));
     }
 
     /**

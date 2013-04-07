@@ -14,7 +14,7 @@ public enum ThriftOperations {
 //    get_range_slices,
 //    get_paged_slice,
 //    get_indexed_slices,
-//    insert,
+    insert,
 //    add,
 //    remove,
 //    remove_counter,

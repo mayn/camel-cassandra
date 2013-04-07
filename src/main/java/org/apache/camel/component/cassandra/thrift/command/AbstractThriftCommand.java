@@ -10,6 +10,7 @@ import org.apache.camel.component.cassandra.CassandraConstants;
 import org.apache.camel.component.cassandra.thrift.CassandraThriftConfiguration;
 import org.apache.camel.util.ExchangeHelper;
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
@@ -33,6 +34,7 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
         return keyspace != null ? keyspace : configuration.getKeyspace();
     }
 
+    //TODO rename to determineColumnName
     protected ByteBuffer determineColumn() throws NoTypeConversionAvailableException {
         String column = exchange.getIn().getHeader(CassandraConstants.COLUMN, String.class);
 
@@ -53,6 +55,18 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
 
         //calling ByteBuffer.wrap was necessary as they weren't being processed correctly by thrift. not sure why
         return superColumn == null ? null : ByteBuffer.wrap(ExchangeHelper.convertToMandatoryType(exchange, byte[].class, superColumn));
+    }
+
+    protected Integer determineTtl() {
+        Integer ttl = exchange.getIn().getHeader(CassandraConstants.TTL, Integer.class);
+
+        return ttl;
+    }
+
+    protected long determineTimestamp() {
+        Long timestamp = exchange.getIn().getHeader(CassandraConstants.TIMESTAMP, Long.class);
+
+        return timestamp == null ? 0 : timestamp.longValue();
     }
 
     /**
@@ -80,10 +94,35 @@ public abstract class AbstractThriftCommand extends AbstractCassandraCommand {
         return columnPath;
     }
 
+    /**
+     * Creates a new {@link org.apache.cassandra.thrift.ConsistencyLevel} populated from values gathered from current {@link Exchange}
+     *
+     * @return <tt>ColumnPath</tt>
+     */
     protected ConsistencyLevel determineConsistencyLevel() {
         ConsistencyLevel consistencyLevel = exchange.getIn().getHeader(CassandraConstants.CONSISTENCY_LEVEL, ConsistencyLevel.class);
 
         return consistencyLevel != null ? consistencyLevel : configuration.getConsistencyLevel();
+    }
+
+    /**
+     * Creates a new {@link org.apache.cassandra.thrift.Column} populated from values gathered from current {@link Exchange}
+     *
+     * @return <tt>ColumnPath</tt>
+     */
+    protected Column determineThriftColumn() throws NoTypeConversionAvailableException {
+        Column column = new Column(determineColumn());
+        column.setFieldValue(Column._Fields.TTL, determineTtl());
+        column.setFieldValue(Column._Fields.TIMESTAMP, determineTimestamp());
+        column.setFieldValue(Column._Fields.VALUE, getMessageBodyAsByteBuffer());
+
+        return column;
+    }
+
+    protected ByteBuffer getMessageBodyAsByteBuffer() throws NoTypeConversionAvailableException {
+        Object body = exchange.getIn().getBody();
+        //calling ByteBuffer.wrap was necessary as they weren't being processed correctly by thrift. not sure why
+        return body == null ? null : ByteBuffer.wrap(ExchangeHelper.convertToMandatoryType(exchange, byte[].class, body));
     }
 
     /**
