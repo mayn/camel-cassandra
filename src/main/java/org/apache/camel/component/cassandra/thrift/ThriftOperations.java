@@ -16,7 +16,7 @@ public enum ThriftOperations {
 //    get_indexed_slices,
     insert,
 //    add,
-//    remove,
+    remove,
 //    remove_counter,
 //    batch_mutate,
 //    atomic_batch_mutate,

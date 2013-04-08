@@ -7,6 +7,7 @@ import org.apache.camel.component.cassandra.CassandraCommand;
 import org.apache.camel.component.cassandra.CassandraConstants;
 import org.apache.camel.component.cassandra.thrift.command.GetCommand;
 import org.apache.camel.component.cassandra.thrift.command.InsertCommand;
+import org.apache.camel.component.cassandra.thrift.command.RemoveCommand;
 import org.apache.camel.component.cassandra.thrift.command.TruncateCommand;
 import org.apache.camel.impl.DefaultProducer;
 import org.apache.camel.util.URISupport;
@@ -31,6 +32,9 @@ public class CassandraThriftProducer extends DefaultProducer {
                 break;
             case insert:
                 command = new InsertCommand(client, getEndpoint().getConfiguration(), exchange);
+                break;
+            case remove:
+                command = new RemoveCommand(client, getEndpoint().getConfiguration(), exchange);
                 break;
             case truncate:
                 command = new TruncateCommand(client, getEndpoint().getConfiguration(), exchange);

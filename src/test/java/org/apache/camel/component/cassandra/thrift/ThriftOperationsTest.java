@@ -9,7 +9,7 @@ public class ThriftOperationsTest {
 
     @Test
     public void supportedOperationCount() {
-        assertEquals(3, ThriftOperations.values().length);
+        assertEquals(4, ThriftOperations.values().length);
     }
 
 
@@ -17,6 +17,7 @@ public class ThriftOperationsTest {
     public void testValueOf() {
         assertEquals(ThriftOperations.get, ThriftOperations.valueOf("get"));
         assertEquals(ThriftOperations.insert, ThriftOperations.valueOf("insert"));
+        assertEquals(ThriftOperations.remove, ThriftOperations.valueOf("remove"));
         assertEquals(ThriftOperations.truncate, ThriftOperations.valueOf("truncate"));
     }
 }
