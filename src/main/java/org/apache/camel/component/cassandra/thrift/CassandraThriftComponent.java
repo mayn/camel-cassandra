@@ -24,7 +24,7 @@ public class CassandraThriftComponent extends DefaultComponent {
         CassandraThriftConfiguration configuration = new CassandraThriftConfiguration();
         setProperties(configuration, parameters);
 
-        URI myUri = new URI(remaining);
+        URI myUri = new URI(uri);
 
         int port = myUri.getPort();
         if(port != -1 ){
