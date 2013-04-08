@@ -3,7 +3,7 @@ package org.apache.camel.component.cassandra.thrift;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ThriftOperationsTest {
 
