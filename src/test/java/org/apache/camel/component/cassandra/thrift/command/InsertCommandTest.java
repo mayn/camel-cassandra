@@ -44,7 +44,7 @@ public class InsertCommandTest {
         headers.put(CassandraConstants.COLUMN_FAMILY, "myColumnFamily");
         headers.put(CassandraConstants.COLUMN, "myColumn");
         headers.put(CassandraConstants.TTL, 60);
-        headers.put(CassandraConstants.TIMESTAMP, System.currentTimeMillis());
+        headers.put(CassandraConstants.TIMESTAMP, System.nanoTime());
         exchange.getIn().setHeaders(headers);
 
         command.execute();

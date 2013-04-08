@@ -153,7 +153,7 @@ public class AbstractThriftCommandTest {
 
     @Test
     public void testDetermineTimestamp() throws Exception {
-        long timestamp = System.currentTimeMillis();
+        long timestamp = System.nanoTime();
         exchange.getIn().setHeader(CassandraConstants.TIMESTAMP, timestamp);
 
         assertEquals(timestamp, command.determineTimestamp());

@@ -38,7 +38,7 @@ public class RemoveCommandTest {
 
     @Test
     public void testExecute() throws Exception {
-        final long timestamp = System.currentTimeMillis();
+        final long timestamp = System.nanoTime();
         Map<String, Object> headers = new HashMap<String, Object>();
         headers.put(CassandraConstants.KEYSPACE, "myKeyspace");
         headers.put(CassandraConstants.KEY, "myKey");
