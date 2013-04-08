@@ -57,9 +57,13 @@ public class CassandraThriftProducer extends DefaultProducer {
         }
     }
 
-    private void closeClientTransport(Cassandra.Client client) {
+    private void closeClientTransport(Cassandra.Client client) throws TTransportException {
         if (client != null && client.getInputProtocol() != null && client.getInputProtocol().getTransport() != null) {
-            client.getInputProtocol().getTransport().close();
+            try {
+                client.getInputProtocol().getTransport().flush();
+            } finally {
+                client.getInputProtocol().getTransport().close();
+            }
         }
     }
 
