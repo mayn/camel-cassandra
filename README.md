@@ -39,14 +39,32 @@ Message headers
   </tr>
   <tr>
     <td>CamelCassandraColumn</td><td>String</td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraColumnFamily</td><td>String</td><td></td>
+  </tr>
+  <tr>    
     <td>CamelCassandraConsistencyLevel</td><td></td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraKey</td><td>String</td><td></td>
+  </tr>
+  <tr> 
     <td>CamelCassandraKeyspace</td><td>String</td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraOperation</td><td></td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraResult</td><td></td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraSuperColumn</td><td>String</td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraTimestamp</td><td>Long</td><td></td>
+  </tr>
+  <tr>
     <td>CamelCassandraTtl</td><td>Integer</td><td></td>
   </tr>
 </table>
