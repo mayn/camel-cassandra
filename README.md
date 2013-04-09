@@ -21,12 +21,32 @@ URI Options
     <th>Name</th><th>Default Value</th><th>Context</th><th>Description</th>
   </tr>
   <tr>
-    <td>consistencyLevel</td><td>QUORUM</td><td></td><td></td>
+    <td>consistencyLevel</td><td>QUORUM</td><td>Producer</td><td></td>
   </tr>
   <tr>
-    <td>keyspace</td><td>null</td><td></td><td></td>
+    <td>keyspace</td><td>null</td><td>Producer</td><td></td>
   </tr>
   <tr>
-    <td>operation</td><td>null</td><td></td><td></td>
+    <td>operation</td><td>null</td><td>Producer</td><td>Valid values are get, insert, remove, truncate</td>
+  </tr>
+</table>
+
+Message headers
+---------------
+<table>
+  <tr>
+    <th>Header</th><th>Type</th><th>Description</th>
+  </tr>
+  <tr>
+    <td>CamelCassandraColumn</td><td>String</td><td></td>
+    <td>CamelCassandraColumnFamily</td><td>String</td><td></td>
+    <td>CamelCassandraConsistencyLevel</td><td></td><td></td>
+    <td>CamelCassandraKey</td><td>String</td><td></td>
+    <td>CamelCassandraKeyspace</td><td>String</td><td></td>
+    <td>CamelCassandraOperation</td><td></td><td></td>
+    <td>CamelCassandraResult</td><td></td><td></td>
+    <td>CamelCassandraSuperColumn</td><td>String</td><td></td>
+    <td>CamelCassandraTimestamp</td><td>Long</td><td></td>
+    <td>CamelCassandraTtl</td><td>Integer</td><td></td>
   </tr>
 </table>
