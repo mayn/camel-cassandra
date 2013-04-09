@@ -14,8 +14,8 @@ public class CassandraConstants {
     public static final String OPERATION = CAMEL_CASSANDRA_PREFIX + "Operation";
     public static final String RESULT = CAMEL_CASSANDRA_PREFIX + "Result";
     public static final String SUPER_COLUMN = CAMEL_CASSANDRA_PREFIX + "SuperColumn";
-    public static final String TIMESTAMP = CAMEL_CASSANDRA_PREFIX + "TIMESTAMP";
-    public static final String TTL = CAMEL_CASSANDRA_PREFIX + "TTL";
+    public static final String TIMESTAMP = CAMEL_CASSANDRA_PREFIX + "Timestamp";
+    public static final String TTL = CAMEL_CASSANDRA_PREFIX + "Ttl";
 
     private CassandraConstants() {
     }
